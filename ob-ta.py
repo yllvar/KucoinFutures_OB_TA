@@ -1,3 +1,5 @@
+how can I modify this code limit signal to be dynamic when limit order, and limit stop is apply based on the current price?
+
 import os
 import ccxt
 import pandas as pd
@@ -21,8 +23,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 PASSPHRASE = os.getenv('PASSPHRASE')
 SYMBOLS = ['ETH/USDT:USDT', 'ARB/USDT:USDT', 'SOL/USDT:USDT', 'AGLD/USDT:USDT', 'BTC/USDT:USDT', 'MATIC/USDT:USDT']
 TIMEFRAMES = ['5m', '15m', '1h', '4h']
-THRESHOLD_POSITIVE = 70
-THRESHOLD_NEGATIVE = -90
+THRESHOLD_POSITIVE = 50
+THRESHOLD_NEGATIVE = -75
 LIMIT_ENTRY_PARAMETERS = {
     'ETH/USDT': {'limit': 100, 'threshold_positive': 50, 'threshold_negative': -75},
     'ARB/USDT': {'limit': 100, 'threshold_positive': 50, 'threshold_negative': -75},
@@ -240,7 +242,7 @@ def perform_analysis_with_aggregation(exchange, symbol):
 
     # Fetch order book data with limit entry parameters
     limit_entry_params = LIMIT_ENTRY_PARAMETERS.get(symbol, {})
-    bids, asks = fetch_order_book_with_limit(exchange, symbol, limit=limit_entry_params.get('limit', 100))
+    bids, asks = fetch_order_book_with_limit(exchange, symbol, limit=limit_entry_params.get('limit', 20))
 
     # Calculate total bid and ask volumes and order book imbalance
     bid_volume, ask_volume, order_book_imbalance = calculate_order_book_metrics(bids, asks)
@@ -306,7 +308,7 @@ def main():
             print_consolidated_analysis(analysis_data, bids, asks)
 
             # Sleep for dynamic sleep duration before the next iteration (e.g., 300 seconds)
-            sleep_duration = 300
+            sleep_duration = 500
             logger.info(f"Sleeping for {sleep_duration} seconds...")
             time.sleep(sleep_duration)
 
@@ -315,5 +317,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
