@@ -1,5 +1,3 @@
-how can I modify this code limit signal to be dynamic when limit order, and limit stop is apply based on the current price?
-
 import os
 import ccxt
 import pandas as pd
